@@ -1,14 +1,14 @@
 # OSHA Stair & Rail Code Check
 
-> Instant lookup tool for 29 CFR 1910 stairway and railing requirements — built for structural engineers designing miscellaneous steel stairs.
+> Instant lookup tool for 29 CFR 1910 stairway and railing requirements, built for structural engineers designing miscellaneous steel stairs.
 
-**[🔗 Live Demo →](https://vibhanshu72.github.io/osha-stair-rail-code-check)**
+**[🔗 Live Demo →](https://vibhanshu-mishra.github.io/osha-stair-rail-code-check)**
 
 ---
 
 ## What Is This?
 
-A fully self-contained, offline-capable HTML reference tool that lets you look up OSHA stairway and railing dimensional requirements in plain English — with exact CFR citations for every answer.
+A fully self-contained, offline-capable HTML reference tool that lets you look up OSHA stairway and railing dimensional requirements in plain English with exact CFR citations for every answer.
 
 No API calls. No login. No installation. Just open the file (or visit the GitHub Pages link above) and start searching.
 
@@ -25,7 +25,7 @@ Built by a structural engineer who got tired of digging through the CFR mid-desi
 - Minimum tread depth (standard stairs)
 - Minimum stairway width
 - Stair angle range (30°–50°)
-- Minimum vertical clearance / headroom
+- Minimum vertical clearance/headroom
 - Spiral stair tread depth and headroom
 - Landing/platform size requirements
 - Stair load capacity requirements
@@ -46,7 +46,7 @@ Built by a structural engineer who got tired of digging through the CFR mid-desi
 
 Type a plain-English question or keyword (e.g. *"handrail height"*, *"max riser"*, *"spiral stair"*, *"42 inches"*) and the tool instantly searches the knowledge base using keyword scoring. The best-matching provision is displayed as a card with the full CFR citation.
 
-No network connection required — all logic and content is embedded in a single HTML file.
+No network connection required; all logic and content are embedded in a single HTML file.
 
 ---
 
@@ -70,7 +70,7 @@ What is the minimum stair width?
 Visit the live demo link above. No setup required.
 
 **Option 2 — Local:**
-1. Download `osha-stair-rail-assistant.html`
+1. Download `index.html`
 2. Open it in any modern browser
 3. Works completely offline
 
@@ -78,7 +78,7 @@ Visit the live demo link above. No setup required.
 
 ## ⚠️ Disclaimer
 
-This tool is a **quick reference only** — not a substitute for the full regulation text, your Authority Having Jurisdiction (AHJ), or a licensed engineer's review.
+This tool is a **quick reference only**, not a substitute for the full regulation text, your Authority Having Jurisdiction (AHJ), or a licensed engineer's review.
 
 Always verify against the current text of **29 CFR 1910.25** and **1910.28–.29** at [eCFR.gov](https://www.ecfr.gov), especially for provisions noting an open 2021 NPRM. OSHA regulations are subject to change.
 
@@ -87,19 +87,19 @@ Always verify against the current text of **29 CFR 1910.25** and **1910.28–.29
 ## 🗺️ Roadmap
 
 - [x] 16 OSHA 29 CFR 1910.25 & 1910.28–.29 provisions (stairways + stair rail systems)
-- [ ] ADA Standards for Accessible Design (2010), Sections 504–505 — handrail extensions, graspability, closed risers, nosing limits, with clear `[OSHA]` vs `[ADA]` labeling where requirements conflict
-- [ ] IBC stair provisions (user-supplied reference — bring your own licensed copy)
+- [ ] ADA Standards for Accessible Design (2010), Sections 504–505 — handrail extensions, graspability, closed risers, nosing limits, with clear `[OSHA]` vs `[ADA]` labelling where requirements conflict
+- [ ] IBC stair provisions (user-supplied reference, bring your own licensed copy)
 - [ ] Printable one-page code summary PDF
 
 ---
 
 ## 👷 About
 
-Built by **Vibhanshu Mishra, PE** — Structural Engineer at AG&E Structural Engineers, Austin TX.
+Built by **Vibhanshu Mishra, PE**, Structural Engineer at AG&E Structural Engineers, Austin TX.
 
 Specializing in miscellaneous steel and industrial structures — stairs, platforms, equipment supports. Building AI and automation tools for a niche that nobody else is covering yet.
 
-- 🔗 [RISA-3D MCP Server](https://github.com/vibhanshu72/risa3d-mcp-server) — Connect Claude AI to your RISA-3D structural models
+- 🔗 [RISA-3D MCP Server](https://github.com/vibhanshu-mishra/risa3d-mcp-server) — Connect Claude AI to your RISA-3D structural models
 - 💼 Connect on LinkedIn
 
 ---
