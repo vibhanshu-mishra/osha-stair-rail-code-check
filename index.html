@@ -1,0 +1,470 @@
+<div class="osha-app">
+
+  <header class="osha-header">
+    <div class="eyebrow">29 CFR 1910 &middot; SUBPART D</div>
+    <h1>STAIR &amp; RAIL<br>CODE CHECK</h1>
+
+    <div class="dimline" id="dimline">
+      <svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="4" y1="12" x2="296" y2="12" class="dim-main"/>
+        <path d="M4 12 L13 6 M4 12 L13 18" class="dim-cap" fill="none"/>
+        <path d="M296 12 L287 6 M296 12 L287 18" class="dim-cap" fill="none"/>
+        <line x1="150" y1="3" x2="150" y2="21" class="dim-tick"/>
+      </svg>
+      <span class="dimlabel">42&Prime; MIN &mdash; STAIR RAIL SYSTEMS, POST&#8209;01/17/2017</span>
+    </div>
+
+    <p class="sub">Instant lookup against a curated 29 CFR 1910 stairway &amp; railing reference. No AI, no network calls &mdash; just the code.</p>
+  </header>
+
+  <main class="osha-chat" id="chat"></main>
+
+  <div class="chips" id="chips">
+    <button class="chip" type="button">Max riser height, standard stairs?</button>
+    <button class="chip" type="button">Stair rail height for new construction?</button>
+    <button class="chip" type="button">Can the top rail double as a handrail?</button>
+    <button class="chip" type="button">Spiral stair tread depth?</button>
+    <button class="chip" type="button">When is a guardrail required at a landing?</button>
+  </div>
+
+  <form class="osha-input" id="form">
+    <input type="text" id="input" placeholder="Type a question or topic (e.g. handrail height)&hellip;" autocomplete="off" />
+    <button type="submit" id="send">FIND</button>
+  </form>
+
+  <footer class="osha-footer">
+    Curated quick-reference (16 provisions from <span class="mono">29 CFR 1910.25</span> &amp;
+    <span class="mono">1910.28&ndash;.29</span>) &mdash; not a substitute for the full regulation, your AHJ,
+    or a licensed engineer's review. Verify current text at eCFR.gov, especially items noting an open 2021 NPRM.
+  </footer>
+
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.osha-app {
+  --bg: #0F2236;
+  --grid-line: rgba(120,178,224,0.07);
+  --panel: #16324A;
+  --panel-user: #1F4060;
+  --line: #5B9BD5;
+  --text: #E7EEF4;
+  --text-dim: #8FA6BC;
+  --accent: #F2C44D;
+  --accent-text: #19283A;
+  --border: rgba(91,155,213,0.35);
+
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  background-image:
+    repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 28px);
+  color: var(--text);
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 580px;
+}
+
+.osha-app * { box-sizing: border-box; }
+
+/* ---- Header ---- */
+.osha-header {
+  padding: 22px 22px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.osha-header .eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--line);
+  margin-bottom: 6px;
+}
+.osha-header h1 {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  margin: 0 0 14px;
+  color: var(--text);
+}
+.dimline {
+  margin: 4px 0 12px;
+}
+.dimline svg {
+  width: 100%;
+  height: 22px;
+  display: block;
+}
+.dim-main, .dim-cap, .dim-tick {
+  stroke: var(--line);
+  stroke-width: 1.5;
+  fill: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dim-main {
+    stroke-dasharray: 320;
+    stroke-dashoffset: 320;
+    animation: draw 1.1s ease-out forwards;
+  }
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+}
+.dimlabel {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  display: block;
+  margin-top: 2px;
+}
+.osha-header .sub {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  margin: 0;
+  max-width: 46ch;
+}
+
+/* ---- Chat ---- */
+.osha-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 260px;
+}
+.msg {
+  max-width: 86%;
+  font-size: 14px;
+  line-height: 1.55;
+  padding: 10px 13px;
+  border-radius: 3px;
+  position: relative;
+}
+.msg.assistant {
+  align-self: flex-start;
+  background: var(--panel);
+  border-left: 3px solid var(--line);
+  color: var(--text);
+}
+.msg.user {
+  align-self: flex-end;
+  background: var(--panel-user);
+  border-right: 3px solid var(--accent);
+  color: var(--text);
+  text-align: right;
+}
+.msg .cite {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  border: 1px solid rgba(242,196,77,0.4);
+  border-radius: 3px;
+  padding: 1px 5px;
+  white-space: nowrap;
+  display: inline-block;
+  margin-top: 6px;
+}
+.msg .result-topic {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--line);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.msg .result-text {
+  margin-bottom: 2px;
+}
+.msg .related {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+.msg .related button {
+  background: none;
+  border: none;
+  color: var(--line);
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+.msg.loading {
+  align-self: flex-start;
+  background: var(--panel);
+  border-left: 3px solid var(--line);
+  padding: 12px 16px;
+}
+.measure {
+  width: 90px;
+  height: 14px;
+  position: relative;
+}
+.measure svg { width: 100%; height: 100%; display: block; }
+.measure .dim-main, .measure .dim-cap, .measure .dim-tick { stroke: var(--text-dim); }
+.measure .dim-tick {
+  animation: slide 0.5s ease-in-out infinite alternate;
+}
+@keyframes slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(60px); }
+}
+
+/* ---- Chips ---- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 22px 14px;
+}
+.chip {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.chip:hover {
+  border-color: var(--line);
+  color: var(--text);
+}
+
+/* ---- Input ---- */
+.osha-input {
+  display: flex;
+  border-top: 1px solid var(--border);
+}
+.osha-input input {
+  flex: 1;
+  background: var(--panel);
+  border: none;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 14px 16px;
+  outline: none;
+}
+.osha-input input::placeholder { color: var(--text-dim); }
+.osha-input button {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  padding: 0 26px;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.osha-input button:hover { filter: brightness(1.08); }
+
+/* ---- Footer ---- */
+.osha-footer {
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  padding: 10px 22px 14px;
+  border-top: 1px solid var(--border);
+}
+.osha-footer .mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+@media (max-width: 480px) {
+  .osha-header h1 { font-size: 32px; }
+}
+</style>
+
+<script>
+(function () {
+  const KB = [
+    { topic: "Riser height (standard stairs)", citation: "29 CFR 1910.25(c)",
+      text: "Maximum riser height is 9.5 in (24 cm). Risers must be uniform between landings.",
+      kw: "rise riser step height max" },
+    { topic: "Tread depth (standard stairs)", citation: "29 CFR 1910.25(c)",
+      text: "Minimum tread depth is 9.5 in (24 cm), uniform between landings.",
+      kw: "run tread step depth minimum" },
+    { topic: "Stair width", citation: "29 CFR 1910.25(c)",
+      text: "Minimum stairway width is 22 in (56 cm).",
+      kw: "wide width minimum stairway" },
+    { topic: "Stair angle", citation: "29 CFR 1910.25(c)",
+      text: "Standard stairs must be installed at an angle between 30 and 50 degrees from horizontal.",
+      kw: "slope pitch incline degrees angle" },
+    { topic: "Vertical clearance", citation: "29 CFR 1910.25(b)(2)",
+      text: "Minimum vertical clearance above any stair tread to an overhead obstruction is 6 ft 8 in (203 cm), measured from the leading edge of the tread. Spiral stairs follow 1910.25(d) instead (6 ft 6 in).",
+      kw: "headroom overhead clearance ceiling height" },
+    { topic: "Spiral stair tread depth & headroom", citation: "29 CFR 1910.25(d)",
+      text: "Spiral stairs require minimum tread depth of 7.5 in (19 cm), measured 12 in (30 cm) from the narrow edge, and minimum headroom of 6 ft 6 in (2 m) above the tread.",
+      kw: "spiral circular ship stairs headroom tread" },
+    { topic: "Landing size", citation: "29 CFR 1910.25(b)(4)",
+      text: "Stairway landings/platforms must be at least as wide as the stair and at least 30 in (76 cm) deep, measured in the direction of travel.",
+      kw: "platform landing depth size" },
+    { topic: "Load capacity", citation: "29 CFR 1910.25(c)",
+      text: "Stairs must support at least 5x the anticipated normal live load, with a minimum concentrated load capacity of 1,000 lb at any point.",
+      kw: "load capacity weight concentrated point 1000 lb" },
+    { topic: "Standard vs. spiral/alternating-tread stairs", citation: "29 CFR 1910.25(b)(7)-(9)",
+      text: "Standard stairs are required for regular/routine travel between levels. Spiral, ship, or alternating-tread stairs may only be used when the employer can demonstrate standard stairs aren't feasible, and must follow manufacturer's instructions.",
+      kw: "alternating tread ship stairs when required ladder" },
+    { topic: "Handrail height", citation: "29 CFR 1910.29(f)(1)(i)",
+      text: "Handrails must be 30-38 in (76-97 cm) high, measured from the leading edge of the stair tread to the top of the handrail.",
+      kw: "hand rail handrail height grab" },
+    { topic: "Stair rail system height - new installations", citation: "29 CFR 1910.29(f)(1)(ii)(B)",
+      text: "For stair rail systems installed on or after Jan 17, 2017, minimum height is 42 in (107 cm) from the leading edge of the tread to the top of the top rail. A separate 30-38 in handrail is also required.",
+      kw: "stair rail guardrail height new construction 42 2017 after" },
+    { topic: "Stair rail system height - existing installations", citation: "29 CFR 1910.29(f)(1)(ii)(A) & (f)(1)(iii)(A)",
+      text: "For stair rail systems installed before Jan 17, 2017, minimum height is 30 in (76 cm). If the top rail is 36-38 in, it may serve as both the stair rail and the handrail, per OSHA's interim enforcement guidance (this area has an open 2021 NPRM - check current OSHA guidance).",
+      kw: "existing before 2017 old retrofit combo top rail as handrail 30 36 38" },
+    { topic: "Finger clearance", citation: "29 CFR 1910.29(f)(2)",
+      text: "Minimum clearance between a handrail and any other object (wall, etc.) is 2.25 in (5.7 cm).",
+      kw: "finger pinch point hand clearance" },
+    { topic: "Openings in stair rail systems", citation: "29 CFR 1910.29(f)",
+      text: "No opening in a stair rail system may exceed 19 in (48 cm) in its least dimension.",
+      kw: "opening gap baluster picket spacing infill 19" },
+    { topic: "Handrail/stair rail strength", citation: "29 CFR 1910.29(f)",
+      text: "Handrails and stair rail systems must withstand at least 200 lb of force applied in any downward or outward direction at any point.",
+      kw: "strength force 200 lb load test point" },
+    { topic: "When stairway guardrails/stair rail systems are required", citation: "29 CFR 1910.28(b)(11)",
+      text: "An unprotected side or edge of a stairway landing that is 4 ft (1.2 m) or more above a lower level must be protected by a guardrail or stair rail system.",
+      kw: "fall protection 4 feet unprotected edge when required guardrail landing" }
+  ];
+
+  const STOPWORDS = new Set(["what","is","the","a","an","for","of","to","in","on","do","does","how","when",
+    "can","i","my","are","it","this","that","with","at","be","you","please","tell","me","much","there",
+    "needs","need","needed","osha","cfr","section","code","required","requirement","requirements"]);
+
+  const chat = document.getElementById('chat');
+  const form = document.getElementById('form');
+  const input = document.getElementById('input');
+  const chips = document.getElementById('chips');
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function tokenize(str) {
+    return str.toLowerCase().replace(/[^a-z0-9.\s]/g, ' ').split(/\s+/).filter(Boolean);
+  }
+
+  function score(queryTokens, entry) {
+    const topicTokens = new Set(tokenize(entry.topic));
+    const allTokens = new Set(tokenize(entry.topic + ' ' + entry.text + ' ' + entry.citation + ' ' + entry.kw));
+    let s = 0;
+    queryTokens.forEach(t => {
+      if (STOPWORDS.has(t)) return;
+      if (topicTokens.has(t)) s += 2;
+      else if (allTokens.has(t)) s += 1;
+    });
+    return s;
+  }
+
+  function renderResultCard(entry) {
+    return `<div class="result-topic">${escapeHtml(entry.topic)}</div>
+      <div class="result-text">${escapeHtml(entry.text)}</div>
+      <span class="cite">${escapeHtml(entry.citation)}</span>`;
+  }
+
+  function addMessage(role, html) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + role;
+    div.innerHTML = html;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function addLoading() {
+    const div = document.createElement('div');
+    div.className = 'msg loading';
+    div.innerHTML = `<div class="measure"><svg viewBox="0 0 90 14" preserveAspectRatio="none">
+      <line x1="2" y1="7" x2="88" y2="7" class="dim-main"/>
+      <path d="M2 7 L8 3 M2 7 L8 11" class="dim-cap"/>
+      <path d="M88 7 L82 3 M88 7 L82 11" class="dim-cap"/>
+      <line x1="15" y1="2" x2="15" y2="12" class="dim-tick"/>
+    </svg></div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function lookup(question) {
+    addMessage('user', escapeHtml(question));
+    const loadingEl = addLoading();
+
+    setTimeout(() => {
+      loadingEl.remove();
+
+      const qTokens = tokenize(question);
+      const scored = KB.map(entry => ({ entry, s: score(qTokens, entry) }))
+        .filter(x => x.s > 0)
+        .sort((a, b) => b.s - a.s);
+
+      if (scored.length === 0) {
+        const list = KB.map(k => `<li>${escapeHtml(k.topic)}</li>`).join('');
+        addMessage('assistant', `That doesn't appear to be covered in this reference set
+          (29 CFR 1910.25 &amp; 1910.28&ndash;.29 stairway/railing provisions).
+          Try one of the topics below, or check eCFR.gov directly.
+          <div class="related"><ul style="margin:6px 0 0 18px; padding:0;">${list}</ul></div>`);
+        return;
+      }
+
+      const top = scored[0].entry;
+      let html = renderResultCard(top);
+
+      // Surface a close second match as "also relevant"
+      if (scored.length > 1 && scored[1].s >= scored[0].s - 1) {
+        const second = scored[1].entry;
+        html += `<div class="related">Also relevant: <button data-topic="${escapeHtml(second.topic)}">${escapeHtml(second.topic)}</button> [${escapeHtml(second.citation)}]</div>`;
+      }
+
+      const msgEl = addMessage('assistant', html);
+      const relBtn = msgEl.querySelector('.related button');
+      if (relBtn) {
+        relBtn.addEventListener('click', () => {
+          const entry = KB.find(k => k.topic === relBtn.dataset.topic);
+          if (entry) addMessage('assistant', renderResultCard(entry));
+        });
+      }
+    }, 200);
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (!q) return;
+    input.value = '';
+    lookup(q);
+  });
+
+  chips.addEventListener('click', e => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    lookup(btn.textContent.trim());
+  });
+
+  // Welcome message
+  addMessage('assistant', `Type a question (e.g. &ldquo;max riser height&rdquo; or &ldquo;handrail height&rdquo;) or tap a topic below.
+    This covers 16 dimensional/geometric provisions from 29 CFR 1910.25 (Stairways) and 1910.28&ndash;.29
+    (Fall Protection / Stair Rail Systems) for misc steel stair design.`);
+})();
+</script>
