@@ -351,7 +351,11 @@
 
   const STOPWORDS = new Set(["what","is","the","a","an","for","of","to","in","on","do","does","how","when",
     "can","i","my","are","it","this","that","with","at","be","you","please","tell","me","much","there",
-    "needs","need","needed","osha","cfr","section","code","required","requirement","requirements"]);
+    "needs","need","needed","osha","cfr","section","code","required","requirement","requirements",
+    "load","loading","landing","minimum","maximum","max","min"]);
+
+  // ADA keywords — surface a clarifying note when detected
+  const ADA_KEYWORDS = new Set(["ada","accessibility","accessible","americans","disabilities"]);
 
   const chat = document.getElementById('chat');
   const form = document.getElementById('form');
@@ -416,7 +420,7 @@
 
       const qTokens = tokenize(question);
       const scored = KB.map(entry => ({ entry, s: score(qTokens, entry) }))
-        .filter(x => x.s > 0)
+        .filter(x => x.s >= 2)
         .sort((a, b) => b.s - a.s);
 
       if (scored.length === 0) {
@@ -428,8 +432,18 @@
         return;
       }
 
+      // ADA clarification note
+      const hasADA = tokenize(question).some(t => ADA_KEYWORDS.has(t));
+      const adaNote = hasADA
+        ? `<div style="margin-bottom:10px;padding:8px 10px;border:1px solid rgba(242,196,77,0.4);border-radius:3px;font-size:13px;color:#F2C44D;">
+            ⚠ You asked about ADA — this tool covers <strong>OSHA 29 CFR 1910</strong> only.
+            ADA Standards (2010, Sections 504–505) are planned for a future update.
+            The result below is the closest OSHA provision.
+           </div>`
+        : '';
+
       const top = scored[0].entry;
-      let html = renderResultCard(top);
+      let html = adaNote + renderResultCard(top);
 
       // Surface a close second match as "also relevant"
       if (scored.length > 1 && scored[1].s >= scored[0].s - 1) {
