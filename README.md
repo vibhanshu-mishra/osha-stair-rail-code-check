@@ -97,7 +97,7 @@ Always verify against the current text of **29 CFR 1910.25** and **1910.28–.29
 
 Built by **Vibhanshu Mishra, PE** — Structural Engineer at AG&E Structural Engineers, Austin, TX.
 
-Specializing in steel and industrial structures — stairs, platforms, equipment supports. Building AI and automation tools for a niche that nobody else is covering yet.
+Specializing in steel and mission-critical structures, with a side focus on miscellaneous structures — stairs, platforms, equipment supports. Building AI and automation tools for a niche that nobody else is covering yet.
 
 - 🔗 [RISA-3D MCP Server](https://github.com/vibhanshu72/risa3d-mcp-server) — Connect Claude AI to your RISA-3D structural models
 - 💼 Connect on [LinkedIn](https://www.linkedin.com/in/vibhanshu9/)
