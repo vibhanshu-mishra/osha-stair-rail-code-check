@@ -2,7 +2,7 @@
 
 > Instant lookup tool for 29 CFR 1910 stairway and railing requirements — built for structural engineers designing miscellaneous steel stairs.
 
-**[🔗 Live Demo →](https://vibhanshu72.github.io/osha-stair-rail-code-check)**
+**[🔗 Live Demo →](https://vibhanshu-mishra.github.io/osha-stair-rail-code-check/)**
 
 ---
 
