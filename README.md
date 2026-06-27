@@ -105,8 +105,4 @@ Specialising in steel and mission-critical structures, with a side focus on misc
 
 ---
 
-## 📄 License
-
-MIT License — free to use, modify, and share.
-
 The regulation text referenced (29 CFR 1910) is published by the U.S. Government and is in the public domain.
