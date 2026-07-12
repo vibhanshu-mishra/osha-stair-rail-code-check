@@ -95,7 +95,7 @@ Always verify against the current text of **29 CFR 1910.25** and **1910.28–.29
 
 ## 👷 About
 
-Built by **Vibhanshu Mishra, PE** — Structural Engineer at AG&E Structural Engineers, Austin, TX.
+Built by **Vibhanshu Mishra, PE** — Structural Engineer at AG&E Structural Engenuity, Austin, TX.
 
 Specialising in steel and mission-critical structures, with a side focus on miscellaneous structures — stairs, platforms, equipment supports. Building AI and automation tools for a niche that nobody else is covering yet.
 
